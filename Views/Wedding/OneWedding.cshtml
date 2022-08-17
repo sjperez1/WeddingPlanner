@@ -1,0 +1,23 @@
+@model Wedding
+
+<a href="/dashboard">Dashboard</a>
+
+@if(Context.Session.GetInt32("UserId") != null)
+    {
+        <form asp-controller="User" asp-action="Logout"><button>Logout</button></form>
+    }
+
+<h1>@Model.WedderOne and @Model.WedderTwo's Wedding</h1>
+
+<h3>Date: @Model.WeddingDate</h3>
+
+<h3>Guests:</h3>
+<ul>
+    @foreach(UserWeddingParticipation attending in Model.WeddingParticipants)
+    {
+        if(attending.WeddingAttendee != null)
+        {
+            <li>@attending.WeddingAttendee.FirstName @attending.WeddingAttendee.LastName</li>
+        }
+    }
+</ul>

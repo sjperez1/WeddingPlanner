@@ -1,0 +1,56 @@
+@if(Context.Session.GetInt32("UserId") != null)
+    {
+        <form asp-controller="User" asp-action="Logout"><button>Logout</button></form>
+    }
+
+<h1>Welcome to the Wedding Planner</h1>
+
+<a href="/weddings/new" class="btn btn-outline-dark">New Wedding</a>
+
+<table>
+    <thead>
+        <th>
+            <tr>
+                <td>Wedding</td>
+                <td>Date</td>
+                <td>Guest</td>
+                <td>Actions</td>
+            </tr>
+        </th>
+    </thead>
+    <tbody>
+        @foreach(Wedding wedding in Model)
+        {
+            <tr>
+                @* the if statement helps get rid of a null error warning *@
+                @if(wedding.WeddingCreator != null)
+                {
+                    <td>
+                        <a asp-controller="Wedding" asp-action="OneWedding" asp-route-weddingId="@wedding.WeddingId">@wedding.WedderOne & @wedding.WedderTwo</a>
+                    </td>
+                    <td>@wedding.WeddingDate</td>
+                    <td>@wedding.WeddingParticipants.Count</td>
+                    <td>
+                        @{
+                            @* we want to see if any one already participating in the trip is already a user that is logged in *@
+                            bool alreadyAttending = wedding.WeddingParticipants.Any(participant => participant.UserId == Context.Session.GetInt32("UserId"));
+                            
+                            <form asp-controller="Wedding" asp-action="Attend" asp-route-weddingId="@wedding.WeddingId">
+                                <button>
+                                    @if(alreadyAttending)
+                                    {
+                                        <span>Un-RSVP</span>
+                                    }
+                                    else
+                                    {
+                                        <span>RSVP</span>
+                                    }
+                                </button>
+                            </form>
+                        }
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

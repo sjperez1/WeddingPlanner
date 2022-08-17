@@ -1,0 +1,36 @@
+@model Wedding;
+
+<a href="/dashboard">Dashboard</a>
+
+@if(Context.Session.GetInt32("UserId") != null)
+    {
+        <form asp-controller="User" asp-action="Logout"><button>Logout</button></form>
+    }
+
+<h1>Plan Your Wedding</h1>
+
+<div class="column">
+    <form asp-action="CreateWedding" asp-controller="Wedding" method="post">
+        <span asp-validation-for="WedderOne"></span>
+        <div class="formline mb-3">
+            <label asp-for="WedderOne"></label>
+            <input class="form-control-sm" asp-for="WedderOne">
+        </div>
+        <span asp-validation-for="WedderTwo"></span>
+        <div class="formline mb-3">
+            <label asp-for="WedderTwo"></label>
+            <input class="form-control-sm" asp-for="WedderTwo">
+        </div>
+        <span asp-validation-for="WeddingDate"></span>
+        <div class="formline mb-3">
+            <label asp-for="WeddingDate"></label>
+            <input class="form-control-sm" asp-for="WeddingDate">
+        </div>
+        <span asp-validation-for="WeddingAddress"></span>
+        <div class="formline mb-3">
+            <label asp-for="WeddingAddress"></label>
+            <input class="form-control-sm" asp-for="WeddingAddress">
+        </div>
+        <button class="btn btn-outline-dark" type="submit">Create</button>
+    </form>
+</div>
